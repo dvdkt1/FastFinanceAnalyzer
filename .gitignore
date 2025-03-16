@@ -1,0 +1,18 @@
+# Ignore compiled binaries
+*.exe
+*.out
+*.o
+
+# Ignore datasets
+data/*.csv
+data/*.json
+
+# Ignore API keys and sensitive files
+.env
+secrets.txt
+config.json
+*.key
+
+# Ignore log files
+*.log
+logs/
