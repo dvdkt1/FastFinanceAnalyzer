@@ -3,6 +3,7 @@
 *.out
 *.o
 src/fetch_stock_data
+src/fetch_crypto_data
 
 # Ignore datasets
 data/*.csv

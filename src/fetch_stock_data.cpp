@@ -31,7 +31,7 @@ void fetch_and_process_stock_data(const std::string& symbol) {
         if (res == CURLE_OK) {
             json stock_data = json::parse(response);
 
-            // ✅ Extract time series data
+            // Extract time series data
             std::ofstream file("../data/" + symbol + "_data.csv");
             file << "Date,Open,High,Low,Close,Volume\n";
 
@@ -45,9 +45,9 @@ void fetch_and_process_stock_data(const std::string& symbol) {
             }
 
             file.close();
-            std::cout << "✅ Stock data saved as CSV: data/" << symbol << "_data.csv" << std::endl;
+            std::cout << "Stock data saved as CSV: data/" << symbol << "_data.csv" << std::endl;
         } else {
-            std::cerr << "❌ cURL Error: " << curl_easy_strerror(res) << std::endl;
+            std::cerr << "cURL Error: " << curl_easy_strerror(res) << std::endl;
         }
     }
 }
