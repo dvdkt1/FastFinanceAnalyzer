@@ -4,6 +4,7 @@
 *.o
 src/fetch_stock_data
 src/fetch_crypto_data
+src/fetcher
 
 # Ignore datasets
 data/*.csv
