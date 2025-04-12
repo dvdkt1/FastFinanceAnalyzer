@@ -3,14 +3,15 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <cstdlib>
+#include "curl_helpers.h"
 
 using json = nlohmann::json;
 
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
-    size_t totalSize = size * nmemb;
-    output->append((char*)contents, totalSize);
-    return totalSize;
-}
+// size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
+//     size_t totalSize = size * nmemb;
+//     output->append((char*)contents, totalSize);
+//     return totalSize;
+// }
 
 void fetch_crypto_data(const std::string& coin_id, int days) {
     CURL* curl;
@@ -60,7 +61,7 @@ void fetch_crypto_data(const std::string& coin_id, int days) {
     }
 }
 
-int main() {
-    fetch_crypto_data("bitcoin", 30);  // BTC first
-    return 0;
-}
+// int main() {
+//     fetch_crypto_data("bitcoin", 30);  // BTC first
+//     return 0;
+// }
