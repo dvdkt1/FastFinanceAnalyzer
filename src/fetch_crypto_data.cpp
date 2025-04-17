@@ -1,3 +1,7 @@
+// fetch_crypto_data.cpp
+// Fetches historical hourly cryptocurrency data (price and volume) from the CoinGecko API
+// Saves results to a CSV file for downstream analysis
+
 #include <iostream>
 #include <fstream>
 #include <curl/curl.h>
@@ -7,28 +11,19 @@
 
 using json = nlohmann::json;
 
-// size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
-//     size_t totalSize = size * nmemb;
-//     output->append((char*)contents, totalSize);
-//     return totalSize;
-// }
-
 void fetch_crypto_data(const std::string& coin_id, int days) {
     CURL* curl;
     CURLcode res;
     std::string response;
 
-    // std::string api_key = std::getenv("COINGECKO_API_KEY");
-    // std::string url = "https://pro-api.coingecko.com/api/v3/coins/" + coin_id +
-    //                   "/market_chart?vs_currency=usd&days=" + std::to_string(days) +
-    //                   "&interval=hourly&x_cg_pro_api_key=" + api_key;
-
+    // Construct the CoinGecko API request URL
     std::string url = "https://api.coingecko.com/api/v3/coins/" + coin_id +
                       "/market_chart?vs_currency=usd&days=" + std::to_string(days) +
                       "";
 
     curl = curl_easy_init();
     if (curl) {
+        // Set cURL options
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -36,11 +31,13 @@ void fetch_crypto_data(const std::string& coin_id, int days) {
         curl_easy_cleanup(curl);
 
         if (res == CURLE_OK) {
+            // Parse JSON response
             json data = json::parse(response);
 
             std::cout << "data[\"prices\"] size: " << data["prices"].size() << std::endl;
             std::cout << "data[\"total_volumes\"] size: " << data["total_volumes"].size() << std::endl;
 
+            // Write to CSV
             std::ofstream file("../data/" + coin_id + "_hourly.csv");
             file << "Timestamp,Price,Volume\n";
 
@@ -60,8 +57,3 @@ void fetch_crypto_data(const std::string& coin_id, int days) {
         std::cerr << "Failed to initialize cURL\n";
     }
 }
-
-// int main() {
-//     fetch_crypto_data("bitcoin", 30);  // BTC first
-//     return 0;
-// }

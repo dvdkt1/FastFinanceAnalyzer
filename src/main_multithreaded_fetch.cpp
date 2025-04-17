@@ -1,3 +1,6 @@
+// main_multithreaded_fetch.cpp
+// Launches multithreaded fetching of crypto and stock data
+
 #include <thread>
 #include <vector>
 #include <string>
@@ -25,7 +28,7 @@ int main() {
         });
     }
 
-    // Join all threads
+    // Wait for all threads to finish
     for (auto& t : threads) {
         t.join();
     }
